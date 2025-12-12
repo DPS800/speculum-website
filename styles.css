@@ -1,6 +1,17 @@
 body {
     background-color: black !important;
     overflow-x: hidden;
+    font-family: RethinkSans !important;
+}
+
+@font-face {
+  font-family: OfficeTimes;
+  src: url(OfficeTimesRound-Regular.otf);
+}
+
+@font-face {
+  font-family: RethinkSans;
+  src: url(RethinkSans-VariableFont_wght.ttf);
 }
 
 p {
@@ -9,6 +20,18 @@ p {
 
 h2 {
     color: #bdbdbd !important;
+}
+
+h2, h3, h4 {
+    font-family: OfficeTimes;
+}
+
+.office {
+    font-family: OfficeTimes !important;
+}
+
+.rethink {
+    font-family: RethinkSans !important;
 }
 
 video {
@@ -51,11 +74,17 @@ input {
     border: none !important;
     text-align: center;
     color: #fcf1f1;
-    width: 57%;
+    width: 55%;
     text-align: center;
     padding: 0px;
     font-size: 14px;
     height: 30px;
+}
+
+@media screen and (max-width: 1126px) {
+    .boxed input {
+        width: 100%;
+    }
 }
 
 input::placeholder {
@@ -70,6 +99,11 @@ input::placeholder {
     background-color: #2f2f2f !important;
     border-radius: 0% !important;
     width: 90% !important;
+}
+
+.card img {
+    text-align: center !important;
+    width: 50%;
 }
 
 .btn {

@@ -1,2 +1,2 @@
 # speculum-website
-Website for the Speculum 😠👿
+Website for The Speculum 😠👿
