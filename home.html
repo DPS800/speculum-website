@@ -1,81 +1,518 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- METADATA -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title> Welcome to The Speculum </title>
-        <link href="styles.css" rel="stylesheet">
-        <link href="..." rel="icon" type="image/x-icon">
-        
-        <!-- BOOTSTRAP-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-        
-        <!-- JQUERY -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    </head>
-    <body class="d-flex flex-column min-vh-100">
-        <!-- HOME SCREEN -->
-        <!-- TRAILER -->
-        <video width="100%" height="100%" controls autoplay>
-            <source src="..." type="video/mp4">
-            <source src="..." type="video/ogg">
-            Your browser does not support the video tag.
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Speculum</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Specific Page Styles that might need refactoring into styles.css later */
+
+        /* Navigation */
+        .site-header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: var(--spacing-md) var(--container-padding);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            width: 40px;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            opacity: 0.6;
+            /* Slight dim for text if needed, or make opaque */
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        /* Sections */
+        .brand-section {
+            text-align: center;
+            padding-bottom: var(--spacing-lg);
+        }
+
+        .brand-logo {
+            max-width: 300px;
+            margin: 0 auto var(--spacing-sm);
+        }
+
+        /* 3-Col Feature Grid */
+        .features-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            border-top: 1px solid #333;
+        }
+
+        .feature-card {
+            padding: var(--spacing-md);
+            border-right: 1px solid #333;
+        }
+
+        .feature-card:last-child {
+            border-right: none;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 180px;
+            height: auto;
+            margin-top: auto;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--spacing-md);
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #333;
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .tool-item:last-child {
+            border-bottom: none;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .tools-graphic {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-md);
+        }
+
+        /* SpecuLate form */
+        .form-grid {
+            display: grid;
+            gap: var(--spacing-sm);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 4px;
+        }
+
+        /* Event Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: #333;
+            /* For border effect */
+            border: 1px solid #333;
+        }
+
+        .event-card {
+            background: var(--bg-color);
+            padding: var(--spacing-md);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .event-tags span {
+            display: inline-block;
+            background: #222;
+            /* Purpleish in wireframe? */
+            color: #a0a0ff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .upcoming-list {
+            max-width: 800px;
+            margin: var(--spacing-lg) auto;
+        }
+
+        .upcoming-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid #333;
+        }
+
+        /* Footer */
+        .site-footer {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            max-width: 200px;
+            margin-top: var(--spacing-lg);
+        }
+
+        @media (max-width: 768px) {
+            .tools-section {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                border-right: none;
+                border-bottom: 1px solid #333;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="logo">
+            <img src="assets/Speculum-white-logo.svg" alt="Speculum Logo" class="nav-logo">
+        </div>
+        <nav>
+            <div class="signin-container">
+                <span class="signin-message">We want you here.</span>
+                <button class="signin-btn">Sign In</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <video id="heroVideo" loop playsinline autoplay>
+            <source src="assets/Video2.mp4" type="video/mp4">
         </video>
-
-        <!-- CONTENT -->
-        <div class="container-xxl text-center p-2">
-            <!-- HEADER -->
-            <div class="row">
-                <div class="col-6 align-self-start text-start">
-                    <img src="..." alt="Speculum logo">
-                </div>
-                <div class="col-6 align-self-end text-end d-flex justify-content-end">
-                    <p class="boxed office"> We want you here. <input type="text" id="email" name="email" placeholder="Enter E-mail" class="rethink"></p>
-                </div>
-            </div>
-
-            <!-- SPECUFLUX -->
-            <img src="..." class="mt-5" alt="SpecuFlux logo">
-            <h2 class="mt-1"> Not a <u>service;</u> <b>a creature.</b> </h2>
-
-            <div class="row" style="margin-top: 200px;">
-                <!-- MISSION -->
-                <div class="col-md-4 text-start">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h3> Mission </h3>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        </div>
-                        <img src="..." class="card-img-bottom mx-auto" alt="Mission icon">
-                    </div>
-                </div>
-
-                <!-- VISION -->
-                <div class="col-md-4 text-start">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h3> Vision </h3>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        </div>
-                        <img src="..." class="card-img-bottom mx-auto" alt="Vision icon">
-                    </div>
-                </div>
-
-                <!-- VALUES -->
-                <div class="col-md-4 text-start">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h3> Values </h3>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        </div>
-                        <img src="..." class="card-img-bottom mx-auto" alt="Values icon">
-                    </div>
-                </div>
-            </div>
-
+        <div class="play-overlay">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" class="play-icon">
+                <polygon points="5,3 19,12 5,21" fill="white" />
+            </svg>
         </div>
 
-    </body>
+        <div class="hero-controls">
+            <!-- Scroll Chevron (Center) -->
+            <div class="scroll-chevron-container">
+                <svg width="40" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="chevron-icon">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+
+            <!-- Video Toggles (Right) -->
+            <div class="video-toggles">
+                <button id="pauseBtn" class="control-btn" aria-label="Pause Video">
+                    <!-- Pause Icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" class="icon-pause">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <!-- Play Icon (Hidden) -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" class="icon-play"
+                        style="display: none;">
+                        <polygon points="5,3 19,12 5,21" />
+                    </svg>
+                </button>
+                <button id="volumeBtn" class="control-btn" aria-label="Toggle Volume">
+                    <!-- Volume High Icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="icon-vol-high">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <!-- Mute Icon (Hidden) -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="icon-vol-mute" style="display: none;">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </button>
+                <button id="fullscreenBtn" class="control-btn" aria-label="Toggle Fullscreen">
+                    <!-- Maximize Icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="icon-maximize">
+                        <path
+                            d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                        </path>
+                    </svg>
+                    <!-- Minimize Icon (Hidden) -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="icon-minimize" style="display: none;">
+                        <path
+                            d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SpecuFlux Branding (80vh) -->
+    <section id="specuflux-branding" class="section-padding">
+        <div class="container flex-center column">
+            <img src="assets/Specuflux_LetterMark.svg" alt="SpecuFlux" class="brand-logo-large">
+            <p class="brand-tagline">Not a <span class="underline">service</span>; A creature.</p>
+        </div>
+    </section>
+
+    <!-- SpecuFlux Features -->
+    <section class="section-padding" style="padding-top: 0;">
+        <div class="container grid features-grid">
+            <div class="feature-card">
+                <h3>Mission</h3>
+                <p>Subscribe for surprise. Monsters are just products that evolved without permission. Your fears, and
+                    wants are the same thing.</p>
+                <img src="assets/Mission_Img..svg" alt="Mission" class="feature-icon">
+            </div>
+            <div class="feature-card">
+                <h3>Vision</h3>
+                <p>Companies used to be compelling. We didn't; peel back the layers into something that's alive. Not a
+                    friend, but something you'll sacrifice for.</p>
+                <img src="assets/Vision_Img.svg" alt="Vision" class="feature-icon">
+            </div>
+            <div class="feature-card">
+                <h3>Values</h3>
+                <p>Monsters are curious. Refuse to fit in. Keep their edges off kilter. We don't want to serve you.
+                    We're here to turn you into one.</p>
+                <img src="assets/Values_Img.svg" alt="Values" class="feature-icon">
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section-padding" style="background: #111;">
+        <div class="container">
+            <h2 class="text-center" style="margin-bottom: var(--spacing-lg);">Tools for theoretical nurses.</h2>
+            <div class="tools-section">
+                <div class="tools-list">
+                    <div class="tool-item">
+                        <img src="assets/Consume_Img.svg" alt="Consume" class="tool-icon">
+                        <div>
+                            <h4>Consume</h4>
+                            <p>Ingest data points and trends.</p>
+                        </div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/Track_Img.svg" alt="Track" class="tool-icon">
+                        <div>
+                            <h4>Track</h4>
+                            <p>Monitor the shifts in real-time.</p>
+                        </div>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/Adapt_Img.svg" alt="Adapt" class="tool-icon">
+                        <div>
+                            <h4>Adapt</h4>
+                            <p>Evolve your practice accordingly.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Using Confess_Img or Mutation_Img as the large graphic -->
+                <div class="tools-graphic">
+                    <img src="assets/Mutation_Img.svg" alt="Tools Graphic" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SpecuLate -->
+    <section id="specuflux-branding" class="section-padding">
+        <div class="container flex-center column">
+            <img src="assets/Speculate_Lettermark_Heart.svg" alt="SpecuLate" class="brand-logo-large">
+            <p class="brand-tagline">An <span class="underline">app</span> that lives inside you.</p>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <h3 class="text-center" style="margin-bottom: 3rem;">A platform that evolves as you do.</h3>
+            <div class="platform-cards">
+                <div class="platform-card">
+                    <img src="assets/Confess_Img.svg" alt="Confess" class="platform-icon">
+                    <div class="platform-content">
+                        <h4>Confess</h4>
+                        <p>Your secrets aren't safe here. They're useful. Feed the algorithm. And watch what grows back
+                            in front of you.</p>
+                    </div>
+                </div>
+                <div class="platform-card">
+                    <img src="assets/Community_Img.svg" alt="Community" class="platform-icon">
+                    <div class="platform-content">
+                        <h4>Community</h4>
+                        <p>This isn't just support. It's more like a symbiosis. Share your real darkness. And find
+                            others who pulse the same way you do.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-container">
+                <h3 class="text-center tags-header">FAQs</h3>
+                <div class="faq-item">
+                    <button class="faq-question">what does this app track?</button>
+                    <div class="faq-answer">
+                        <p>Your evolution. The monster was always inside you, we just measure it. Every choice, every
+                            pattern, every crack in your civility.<br><br>We're not collecting data. We're charting
+                            metamorphosis.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">is my identity private?</button>
+                    <div class="faq-answer">
+                        <p>Your name? Sure. What you are? Never. The monster shows. It always does.<br>You can hide who
+                            you were. You can't hide what you're becoming.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">are you moderating this platform?</button>
+                    <div class="faq-answer">
+                        <p>We don't moderate. We let it breathe. The users decide what survives. What evolves. What gets
+                            consumed.<br><br>Nature doesn't have moderators. Neither do we.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">how will i become a monster?</button>
+                    <div class="faq-answer">
+                        <p>You already are one. You just didn't have a mirror. This app doesn't create monsters. It
+                            reveals them.<br>Welcome to the glass.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SpecuHub -->
+    <section id="specuhub-section" class="section-padding">
+        <div class="container brand-section">
+            <img src="assets/SpecuHub_Lettermark_Hand.svg" alt="SpecuHub" class="brand-logo-large">
+            <p class="brand-tagline">Where ancestors gather.</p>
+        </div>
+    </section>
+
+    <!-- Events Grid -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="text-center" style="margin-bottom: 2rem;">Run free but refuse to stray small.</h2>
+            <div class="events-grid">
+                <!-- Card 1 -->
+                <div class="event-card">
+                    <div>
+                        <h4>Sensory Worship</h4>
+                        <div class="event-tags"><span>Sight</span><span>Sound</span></div>
+                    </div>
+                    <img src="assets/SensoryWorship_Img.svg" alt="Sensory Worship">
+                </div>
+                <!-- Card 2 -->
+                <div class="event-card">
+                    <div>
+                        <h4>Feeding</h4>
+                        <div class="event-tags"><span>Taste</span><span>Touch</span></div>
+                    </div>
+                    <img src="assets/SermonEngineering_Img.svg" alt="Feeding">
+                </div>
+                <!-- Card 3 -->
+                <div class="event-card">
+                    <div>
+                        <h4>Feral Sabbath</h4>
+                        <div class="event-tags"><span>Rest</span><span>Wild</span></div>
+                    </div>
+                    <img src="assets/FeralSabbath_Img.svg" alt="Feral Sabbath">
+                </div>
+                <!-- Card 4 -->
+                <div class="event-card">
+                    <div>
+                        <h4>Live Prey</h4>
+                        <div class="event-tags"><span>Hunt</span><span>Gather</span></div>
+                    </div>
+                    <img src="assets/LivePrey_Img.svg" alt="Live Prey">
+                </div>
+            </div>
+
+            <div class="upcoming-list">
+                <h3 style="margin-bottom: 2rem;">Upcoming events</h3>
+                <div class="upcoming-item">
+                    <span>Aural sanity exam</span>
+                    <button class="btn" aria-label="Info about Aural sanity exam">Info</button>
+                </div>
+                <div class="upcoming-item">
+                    <span>Visual diet log</span>
+                    <button class="btn" aria-label="Info about Visual diet log">Info</button>
+                </div>
+                <div class="upcoming-item">
+                    <span>Scent memory bank</span>
+                    <button class="btn" aria-label="Info about Scent memory bank">Info</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <h2 style="font-size: 3rem; font-family: 'Rethink Sans', serif; font-style: italic;">Return to wondering.</h2>
+        <img src="assets//TheSpeculumLogo_Footer.svg" alt="The Speculum" class="footer-logo">
+    </footer>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js?v=10"></script>
+</body>
+
 </html>

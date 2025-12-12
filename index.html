@@ -1,26 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- METADATA -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title> The Speculum is only for members... </title>
-        <link href="styles.css" rel="stylesheet">
-        <link href="..." rel="icon" type="image/x-icon">
-        
-        <!-- BOOTSTRAP-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-        
-        <!-- JQUERY -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    </head>
-    <body class="d-flex flex-column min-vh-100">
-        <!-- WEBSITE WHITELIST PASSWORD INPUT SCREEN -->
-        <div style="margin: auto; width: 50%;">
-            <input type="password" id="password" name="password" placeholder="Please enter the password here...">
-            <a class="btn btn-secondary align-self-end" href="home.html" role="button">Proceed</a>
-        </div>
 
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Speculum - Restricted</title>
+    <!-- Use version query to bust cache -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100 password-page">
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- WEBSITE WHITELIST PASSWORD INPUT SCREEN -->
+    <div class="password-container" style="margin: auto; width: 50%; text-align: center;">
+        <h2 style="font-family: 'Cormorant Garamond', serif; color: #fff; margin-bottom: 2rem; margin-top: 25%;">Restricted Access</h2>
+
+        <input type="password" id="password" name="password" placeholder="Please enter the password here..."
+            autocomplete="off" aria-label="Enter Password">
+        <br>
+        <a class="btn btn-secondary align-self-end" href="#" role="button" id="proceedBtn"
+            style="margin-top: 20px; display: inline-block;">Proceed</a>
+        <p id="error-msg"
+            style="color: #ff4d4d; margin-top: 10px; opacity: 0; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
+            Incorrect Password</p>
+    </div>
+
+    <script>
+        // Simple Password Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const proceedBtn = document.getElementById('proceedBtn');
+            const passwordInput = document.getElementById('password');
+            const errorMsg = document.getElementById('error-msg');
+            const container = document.querySelector('.password-container');
+
+            // --- Custom Cursor Logic (Simplified for this page) ---
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // GSAP is loaded, so we can use it
+                gsap.to(cursorOutline, {
+                    x: posX,
+                    y: posY,
+                    duration: 0.15,
+                    ease: "power2.out"
+                });
+            });
+
+            // --- Password Check ---
+            function checkPassword(e) {
+                if (e) e.preventDefault(); // Prevent default link behavior
+
+                const password = passwordInput.value;
+                if (password === 'monster') {
+                    // Success Animation
+                    gsap.to(container, {
+                        scale: 1.1,
+                        opacity: 0,
+                        duration: 0.5,
+                        ease: "power2.in",
+                        onComplete: () => {
+                            window.location.href = 'home.html';
+                        }
+                    });
+                } else {
+                    // Error Animation (Shake)
+                    gsap.to(container, {
+                        x: -10,
+                        duration: 0.1,
+                        yoyo: true,
+                        repeat: 5,
+                        ease: "power.inOut",
+                        onComplete: () => {
+                            gsap.to(container, { x: 0, duration: 0.1 }); // Ensure reset
+                        }
+                    });
+
+                    gsap.to(errorMsg, { opacity: 1, duration: 0.3 });
+                    passwordInput.value = '';
+                }
+            }
+
+            proceedBtn.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkPassword();
+            });
+        });
+    </script>
+</body>
+
 </html>

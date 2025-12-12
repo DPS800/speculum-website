@@ -1,60 +1,860 @@
+/* CSS Variables & Reset */
+:root {
+    --bg-color: #0d0d0d;
+    --text-color: #f0f0f0;
+    --accent-color: #ffffff;
+    --font-main: 'Rethink Sans', sans-serif;
+    --font-display: 'Office Times Round', Georgia, serif;
+    /* New Display Font */
+
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 8rem;
+
+    --container-padding: 2rem;
+    --max-width: 1400px;
+    --header-height: 80px;
+}
+
+@font-face {
+    font-family: 'Rethink Sans';
+    src: url('assets/rethink-sans/RethinkSans[wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rethink Sans';
+    src: url('assets/rethink-sans/RethinkSans-Italic[wght].ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Office Times Round';
+    src: url('assets/office-times-round/OfficeTimesRound-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    background-color: black !important;
-    overflow-x: hidden;
-    font-family: RethinkSans !important;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden !important;
 }
 
-@font-face {
-  font-family: OfficeTimes;
-  src: url(OfficeTimesRound-Regular.otf);
+html {
+    scroll-behavior: smooth;
 }
 
-@font-face {
-  font-family: RethinkSans;
-  src: url(RethinkSans-VariableFont_wght.ttf);
+:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
 }
 
-p {
-    color: #fcf1f1;
+img,
+video,
+svg {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Utilities */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+.grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.flex {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.section-padding {
+    padding: var(--spacing-xl) 0;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display);
+    font-weight: normal;
+    /* Often display fonts look better with normal weight, can adjust if needed */
+    line-height: 1.1;
+    margin-bottom: var(--spacing-sm);
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
 }
 
 h2 {
-    color: #bdbdbd !important;
+    font-size: clamp(2rem, 4vw, 3rem);
 }
 
-h2, h3, h4 {
-    font-family: OfficeTimes;
+h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.office {
-    font-family: OfficeTimes !important;
+/* Ensure body text stays rethink sans */
+p,
+label,
+input,
+button {
+    font-family: var(--font-main);
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    color: #ccc;
 }
 
-.rethink {
-    font-family: RethinkSans !important;
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--text-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    font-family: var(--font-main);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-video {
-    background-color: black;
-    width: 100% !important;
-    height: 100% !important;
+.btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
 }
 
-u {
-    text-decoration-color: #211280 !important;
+/* Specific Page Styles */
+
+/* Navigation */
+.site-header {
+    position: fixed;
+    /* Fixed per user request */
+    top: 0;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 var(--container-padding);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(13, 13, 13, 0.85);
+    backdrop-filter: blur(10px);
+    /* border-bottom: 0.5px solid rgba(255,255,255,0.1);  Removed as per request */
+}
+
+.nav-logo {
+    width: 60px;
+    height: auto;
+}
+
+.nav-icon {
+    width: 60px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.nav-icon:hover {
+    transform: scale(1.1);
+}
+
+.signin-container {
+    display: flex;
+    align-items: center;
+    background: #262626;
+    /* Lighter than header bg */
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    /* Pill shape */
+    gap: 1rem;
+}
+
+.signin-message {
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    color: #ccc;
+    white-space: nowrap;
+}
+
+.signin-btn {
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.signin-btn:hover {
+    opacity: 0.9;
+}
+
+/* Hero */
+.hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    /* Allow header to overlay video by NOT pulling it up if we want overlap, 
+       BUT fixed header sits on top of content.
+       To ensure video is full screen visible behind header, we don't need margin.
+       But if we want the TOP of the video to be at the TOP of the viewport,
+       we behave normally. Fixed header sits on top.
+    */
+}
+
+/* 
+   Header is set to position: sticky in the Navigation section above.
+   It will interact with the Hero's negative margin to overlay the video
+   while remaining sticky on scroll.
+*/
+
+
+.hero video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    object-fit: cover;
+}
+
+.play-overlay {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.hero-controls {
+    position: absolute;
+    bottom: 0;
+    /* Sit at bottom */
+    left: 0;
+    width: 100%;
+    height: 80px;
+    /* Keep hit area for controls but no solid bar */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 60%);
+    /* Fade out instead of harsh black bar */
+    display: flex;
+    justify-content: space-between;
+    /* Spread content */
+    align-items: center;
+    padding: 0 var(--container-padding);
+    pointer-events: auto;
+    z-index: 20;
+}
+
+.scroll-chevron-container {
+    cursor: pointer;
+    animation: bounce 2s infinite;
+    /* Center Chevron */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.video-toggles {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+    /* Push to right if using flex normal, but we use absolute for chevron */
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    /* Increased padding */
+    min-width: 48px;
+    /* Minimum touch target */
+    min-height: 48px;
+    border-radius: 50%;
+    border-radius: 50%;
+    /* background: rgba(0,0,0,0.3); Removed background for cleaner look on black bar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.control-btn:hover {
+    opacity: 0.7;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Sections */
+#specuflux-branding {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#specuhub-section {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.brand-logo-large {
+    max-width: 800px;
+    /* Large scale */
+    width: 90%;
+    margin-bottom: var(--spacing-md);
+}
+
+.brand-tagline {
+    font-family: var(--font-display);
+    font-size: 36px;
+    /* Request: 36px for both */
+    color: var(--text-color);
+    text-align: center;
+}
+
+.underline {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    text-decoration-color: #a0a0ff !important;
+    text-decoration-color: #211280;
     text-decoration-color: #2a4cbc;
 }
 
-.boxed {
-    background-color: #2f2f2f;
-    width: 53%;
-    margin: 20px;
-    padding: 12px;
-    text-align: start;
+.brand-section {
+    text-align: center;
+    padding-bottom: var(--spacing-lg);
 }
 
-.black {
-    background-color: black !important;
+.brand-section p {
+    font-family: var(--font-display);
+    /* Subtitles using display font */
+    font-size: 1.5rem;
+    margin-top: var(--spacing-sm);
+}
+
+.brand-logo {
+    max-width: 300px;
+    margin: 0 auto var(--spacing-sm);
+}
+
+/* 3-Col Feature Grid */
+.features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.feature-card {
+    padding: var(--spacing-md);
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Stack from top */
+    min-height: auto;
+    /* Let content dictate height, or a smaller min-height */
+    height: 100%;
+    /* Fill grid cell */
+    background: #1a1a1a;
+}
+
+.feature-card:last-child {
+    border-right: none;
+}
+
+.feature-card h3 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+.feature-card p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    /* Removed flex-grow to avoid pushing image too far if not needed, 
+       but we want them aligned. Let's keep the image big. */
+}
+
+.feature-icon {
+    width: 100%;
+    /* Let the SVG breathe inside the card */
+    max-width: 600px;
+    /* Roughly 3-4x larger than before */
+    height: auto;
+    margin: auto auto 0;
+    /* Push to bottom, center horizontally */
+    display: block;
+}
+
+/* Tools Section */
+.tools-section {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-md);
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+.tools-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.tool-item {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid #333;
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.tool-item:last-child {
+    border-bottom: none;
+}
+
+.tool-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.tools-graphic {
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md);
+}
+
+/* SpecuLate form */
+#speculate-section {
+    padding: 0;
+    /* Remove padding from parent, let branding take space */
+}
+
+#speculate-section .brand-section {
+    min-height: 80vh;
+    /* Request: 80 vh */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: var(--spacing-xl);
+}
+
+/* Platform section spacing */
+#speculate-section .container:not(.brand-section) {
+    padding-bottom: var(--spacing-xl);
+}
+
+#speculate-section h3 {
+    margin-bottom: var(--spacing-lg) !important;
+    /* Force more space after title */
+}
+
+.faq-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    border: none;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 1.5rem;
+    background: #222;
+    border: 1px solid #333;
+    color: #f0f0f0;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-question:hover {
+    background: #2a2a2a;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #1a1a1a;
+}
+
+.faq-answer p {
+    padding: 1.5rem;
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.6;
+    border: 1px solid #333;
+    border-top: none;
+}
+
+/* Active State Styles */
+.faq-question.active {
+    background: #333;
+    border-bottom: none;
+}
+
+/* Optional: stylistic choice */
+
+/* Platform Cards */
+.platform-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.platform-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 2.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.platform-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.platform-content h4 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.platform-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .platform-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .platform-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Event Grid */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: #333;
+    /* For border effect */
+    border: 1px solid #333;
+}
+
+.event-card {
+    background: var(--bg-color);
+    padding: var(--spacing-md);
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.event-tags span {
+    display: inline-block;
+    background: #222;
+    color: #a0a0ff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.upcoming-list {
+    max-width: 800px;
+    margin: var(--spacing-lg) auto;
+}
+
+.upcoming-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid #333;
+}
+
+/* Footer */
+.site-footer {
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-logo {
+    max-width: 400px;
+    /* Made larger */
+    width: 100%;
+    margin-top: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+    .tools-section {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        border-right: none;
+        border-bottom: 1px solid #333;
+    }
+
+    /* Cursor */
+    body {
+        cursor: none;
+        /* Hide default cursor */
+        overflow-x: hidden;
+        /* Fix horizontal scrollbar */
+        max-width: 100vw;
+    }
+
+    .cursor-dot,
+    .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 2147483647;
+        /* Max z-index to ensure visibility */
+        pointer-events: none;
+    }
+
+    .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: white;
+    }
+
+    .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    /* Hover State for Cursor */
+    body.hovering .cursor-outline {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+        mix-blend-mode: difference;
+    }
+
+    /* Feature & Event Cards adjustments for zoom */
+    .feature-card,
+    .event-card {
+        overflow: hidden;
+        /* Contain zoom */
+        position: relative;
+        /* transition: transform 0.3s ease;  Removed global transform transition to avoid conflict if needed, or keep for card lift */
+    }
+
+    /* Feature icon still uses CSS for now, Event Card img handled by GSAP below */
+    .feature-icon {
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.05);
+    }
+
+    /* Tool Item Hover handled by GSAP now */
+    .tool-item {
+        /* transition: transform 0.3s ease, background-color 0.3s ease; Removed for GSAP */
+    }
+
+    /* Button Magnetism (Base styles) */
+    .btn,
+    .signin-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* --- Password Page Styles --- */
+    .password-page {
+        background-color: #0b0b0b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .password-container {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 3rem;
+        border-radius: 1px;
+        /* Sharp corners */
+        border: 1px solid #333;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        max-width: 90%;
+        width: 400px;
+        /* Force a reasonable width */
+    }
+
+    #password {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #555;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.2rem;
+        padding: 10px 5px;
+        width: 100%;
+        outline: none;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+    #password:focus {
+        border-bottom-color: #fff;
+        box-shadow: 0 10px 20px -10px rgba(255, 255, 255, 0.1);
+    }
+
+    #password::placeholder {
+        color: #555;
+        font-size: 1rem;
+        font-style: italic;
+    }
+
+    /* Proceed Button tweaks for this context */
+    #proceedBtn {
+        background: #fff;
+        color: #000;
+        border: none;
+        border-radius: 0;
+        padding: 10px 30px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #proceedBtn:hover {
+        background: #ddd;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
 }
 
 input {
@@ -63,52 +863,10 @@ input {
     border: none !important;
     text-align: center;
     color: #fcf1f1;
-    width: 100%;
     text-align: start;
     padding: 10px;
 }
 
-.boxed input {
-    background-color: #515151;
-    outline: none !important;
-    border: none !important;
-    text-align: center;
-    color: #fcf1f1;
-    width: 55%;
-    text-align: center;
-    padding: 0px;
-    font-size: 14px;
-    height: 30px;
-}
-
-@media screen and (max-width: 1126px) {
-    .boxed input {
-        width: 100%;
-    }
-}
-
 input::placeholder {
-    color: #fcf1f1;
-}
-
-.card {
-    margin-left: 24px;
-    margin-right: 24px;
-    margin-top: 20px;
-    color: #fcf1f1 !important;
-    background-color: #2f2f2f !important;
-    border-radius: 0% !important;
-    width: 90% !important;
-}
-
-.card img {
-    text-align: center !important;
-    width: 50%;
-}
-
-.btn {
-    width: 100%;
-    padding: 10px !important;
-    margin-top: 20px;
-    border-radius: 0% !important;
+    color: #cec8c8;
 }

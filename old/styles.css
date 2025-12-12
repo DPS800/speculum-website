@@ -1,0 +1,115 @@
+body {
+    background-color: black !important;
+    overflow-x: hidden;
+    font-family: RethinkSans !important;
+    overflow-x: hidden !important;
+}
+
+@font-face {
+  font-family: OfficeTimes;
+  src: url(OfficeTimesRound-Regular.otf);
+}
+
+@font-face {
+  font-family: RethinkSans;
+  src: url(RethinkSans-VariableFont_wght.ttf);
+}
+
+p {
+    color: #fcf1f1;
+}
+
+h2 {
+    color: #bdbdbd !important;
+}
+
+h2, h3, h4 {
+    font-family: OfficeTimes;
+}
+
+.office {
+    font-family: OfficeTimes !important;
+}
+
+.rethink {
+    font-family: RethinkSans !important;
+}
+
+video {
+    background-color: black;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+u {
+    text-decoration-color: #211280 !important;
+    text-decoration-color: #2a4cbc;
+}
+
+.boxed {
+    background-color: #2f2f2f;
+    width: 53%;
+    margin: 20px;
+    padding: 12px;
+    text-align: start;
+}
+
+.black {
+    background-color: black !important;
+}
+
+input {
+    background-color: #2f2f2f;
+    outline: none !important;
+    border: none !important;
+    text-align: center;
+    color: #fcf1f1;
+    width: 100%;
+    text-align: start;
+    padding: 10px;
+}
+
+.boxed input {
+    background-color: #515151;
+    outline: none !important;
+    border: none !important;
+    text-align: center;
+    color: #fcf1f1;
+    width: 55%;
+    text-align: center;
+    padding: 0px;
+    font-size: 14px;
+    height: 30px;
+}
+
+@media screen and (max-width: 1126px) {
+    .boxed input {
+        width: 100%;
+    }
+}
+
+input::placeholder {
+    color: #fcf1f1;
+}
+
+.card {
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
+    color: #fcf1f1 !important;
+    background-color: #2f2f2f !important;
+    border-radius: 0% !important;
+    width: 90% !important;
+}
+
+.card img {
+    text-align: center !important;
+    width: 50%;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px !important;
+    margin-top: 20px;
+    border-radius: 0% !important;
+}
