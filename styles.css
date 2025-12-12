@@ -762,10 +762,10 @@ button {
         transform: scale(1.05);
     }
 
-    /* Tool Item Hover handled by GSAP now */
-    .tool-item {
-        /* transition: transform 0.3s ease, background-color 0.3s ease; Removed for GSAP */
-    }
+    /* Tool Item Hover handled by GSAP now
+        .tool-item {
+            transition: transform 0.3s ease, background-color 0.3s ease; Removed for GSAP
+    } */
 
     /* Button Magnetism (Base styles) */
     .btn,
@@ -790,6 +790,15 @@ button {
         width: 100px;
         height: 100px;
     }
+
+    @media screen and (max-width: 992px) {
+    .password-page {
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        left: 7%;
+    }
+}
 
     .password-container {
         background: rgba(255, 255, 255, 0.03);
